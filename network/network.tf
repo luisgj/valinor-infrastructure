@@ -5,9 +5,18 @@ resource "aws_vpc" "vpc" {
     Env  = var.env
   }
 }
-resource "aws_subnet" "subnet" {
+resource "aws_subnet" "instance_subnet" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.subnet
+  cidr_block              = var.instance_subnet
+  //map_public_ip_on_launch = "true"
+  tags = {
+    Name = "${var.env}_subnet"
+    Env  = var.env
+  }
+}
+resource "aws_subnet" "database_subnet" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.database_subnet
   //map_public_ip_on_launch = "true"
   tags = {
     Name = "${var.env}_subnet"
