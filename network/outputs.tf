@@ -5,7 +5,7 @@ output "vpc_id" {
 
 output "security_group_id" {
   description = "the default security group id to attach to resources"
-  value = aws_vpc.vpc.default_security_group_id
+  value = aws_security_group.ssh-access.id
 }
 
 output "instance_subnet" {
