@@ -55,6 +55,14 @@ resource "aws_security_group" "private-access" {
     to_port = 22
     protocol = "tcp"
   }
+  ingress {
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+    from_port = 3306
+    to_port = 3306
+    protocol = "tcp"
+  }
   // Terraform removes the default rule
   egress {
     from_port = 0
