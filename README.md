@@ -19,3 +19,27 @@ To create the database there need to be at least two different subnets in at lea
 - `subnets`: In two different availability zones
 - `subnet_group`: the list of the subnets to use for the db
 - `aws_db_instance`: mysql community engine rds db
+
+ ## Update
+
+To further isolate the instances into layers, the project was modified to provide different levels of access according to the resource. The modification were:
+
+- Modify the ec2 instance in the public subnet to work as a bastion
+- Create a private subnet with a nat gateway and elastic ip.
+- Create a route table to allow the subnet traffic through the nat gw.
+- Create a new private ec2 instance with access outbound only access to the internet.
+- Create a route table with only local traffic to isolate the database subnets.
+
+This will enable to have instances in the public subnet, private backend instances in a private subnet and isolated instances that only allow local traffic inside the vpn (in this case the database).
+
+The objective was to create something similar to this design:
+ ![diagramIsolated](images/isolated.png "diagram_components_isolated")
+ 
+ ## Further on...
+ 
+**Improvements**
+We can improve this architecture to be more reliable in the following areas depending on the needs of the system:
+
+- `Quality`: It would be nice to run this through a ci pipeline and to have integration tests for the project.
+- `Fault tolerance and availability`: Add redundancy by having a second stack in another availability zone.
+- `Scalability`: By having more than one stack across many availability zones we could handle bigger loads with a load balancer.

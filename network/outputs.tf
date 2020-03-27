@@ -3,14 +3,19 @@ output "vpc_id" {
   value = aws_vpc.vpc.id
 }
 
-output "security_group_id" {
+output "public_security_group_id" {
   description = "the default security group id to attach to resources"
-  value = aws_security_group.ssh-access.id
+  value = aws_security_group.public-access.id
 }
 
-output "instance_subnet" {
+output "private_security_group_id" {
+  description = "the default security group id to attach to resources"
+  value = aws_security_group.private-access.id
+}
+
+output "public_subnet" {
   description = "the subnet range to attach to the instance"
-  value = aws_subnet.instance_subnet.id
+  value = aws_subnet.public_subnet.id
 }
 
 output "database_subnet_a" {
@@ -21,4 +26,9 @@ output "database_subnet_a" {
 output "database_subnet_b" {
   description = "the subnet range to attach to the database"
   value = aws_subnet.database_subnet_b.id
+}
+
+output "private_subnet" {
+  description = "the subnet range to attach to the database"
+  value = aws_subnet.private_subnet.id
 }
