@@ -3,7 +3,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
   enable_dns_support = true
   tags = {
-    Name = "${var.env}_vpc"
+    Owner = "valinor"
     Env  = var.env
   }
 }
@@ -13,7 +13,7 @@ resource "aws_subnet" "instance_subnet" {
   cidr_block              = var.instance_subnet
   map_public_ip_on_launch = "true"
   tags = {
-    Name = "${var.env}_subnet"
+    Owner = "valinor"
     Env  = var.env
   }
 }
@@ -21,10 +21,11 @@ resource "aws_subnet" "instance_subnet" {
 resource "aws_subnet" "database_subnet_a" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.database_subnet_a
-  availability_zone = "us-west-2a"
+  availability_zone       = "us-west-2a"
   tags = {
-    Name = "${var.env}_subnet"
+    Owner = "valinor"
     Env  = var.env
+    Tier: "private"
   }
 }
 
@@ -33,8 +34,9 @@ resource "aws_subnet" "database_subnet_b" {
   cidr_block              = var.database_subnet_b
   availability_zone       = "us-west-2b"
   tags = {
-    Name = "${var.env}_subnet"
+    Owner = "valinor"
     Env  = var.env
+    Tier: "private"
   }
 }
 resource "aws_internet_gateway" "gw" {

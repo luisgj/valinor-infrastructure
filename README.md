@@ -1,22 +1,21 @@
-# valinor-infrastructure
-valinor infrastructure.
+# Valinor Infrastructure
+  
+ This project tries to create resources to achieve the infrastructure in this diagram: 
+ ![diagram](images/components.png "diagram_components")
+  
+The structure of the project will be with modules separated by layer (network, storage, instances, etc).
 
+To connect the EC2 instance to the internet we will have to add a few more resources. This is because provisioning an instance inside a private subnet and a vpc will leave an isolated instance and nothing to tell the system what ports are open and allowed and there is no path to route traffic to and from the internet as there is no public gateway to route it to. To allow internet access:
 
-## Components:
-For this POC we will try to provision an RDS database and an ECS instances inside a vpc. We should be able to achieve something like this:
- image
- 
- We will use terraform for this example. An interesting challenge is to decide how to structure the repo. By reading some docs and posts, 
- I will define modules per components and then import them in the `main.tf` file (network, instance, db, etc)
- 
- Something like this (got it from https://medium.com/swlh/creating-an-instance-in-a-newly-designed-vpc-using-terraform-440a220d3886): 
-    -- main.tf
-    -- variables.tf
-    -- terraform.tfvars
- -- modules (folder)
-   --vpc (folder)
-     -- vpc.tf
-     -- variables.tf
-     -- output.tf
-   -- ...
- 
+- `aws_subnet (public)`: Associates a public ip address inside the public subnet we use the subnet to do this automatically.
+- `internet_gateway`: A way to open the subnet to the internet
+- `default_route_table`: To point the traffic through the gateway
+- `security_group`: To define the rules of outbound, inbound, protocols and ports through the subnet (we are also allowing ssh access).
+
+This will make our subnet public and grant us access to and from the internet inside the EC2.
+
+To create the database there need to be at least two different subnets in at least two availability zones. To create the database:
+
+- `subnets`: In two different availability zones
+- `subnet_group`: the list of the subnets to use for the db
+- `aws_db_instance`: mysql community engine rds db

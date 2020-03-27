@@ -1,10 +1,10 @@
-resource "aws_db_subnet_group" "subnetgroup" {
+resource "aws_db_subnet_group" "subnet_group" {
   name_prefix = "valinor"
   description = "Database subnet group for valinordb"
   subnet_ids  = var.subnet_ids
   tags = {
     Owner  = "valinor"
-    Env = "test"
+    Env = var.env
   }
 }
 
@@ -19,7 +19,7 @@ resource "aws_db_instance" "mysql_rds" {
   password = "test-password"
   port     = "3306"
   vpc_security_group_ids = [var.security_group]
-  db_subnet_group_name = aws_db_subnet_group.subnetgroup.name
+  db_subnet_group_name = aws_db_subnet_group.subnet_group.name
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
   multi_az = true
@@ -27,7 +27,7 @@ resource "aws_db_instance" "mysql_rds" {
   backup_retention_period = 0
   tags = {
     Owner       = "valinor"
-    Env = "test"
+    Env = var.env
   }
   final_snapshot_identifier = "valinordb"
   deletion_protection = false
