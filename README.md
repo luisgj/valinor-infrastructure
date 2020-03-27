@@ -1,6 +1,6 @@
 # Valinor Infrastructure
   
- This project tries to create resources to achieve the infrastructure in this diagram: 
+ This project tries to create resources to achieve the infrastructure in this diagram using Terraform: 
  ![diagram](images/components.png "diagram_components")
 
 The structure of the project will be with modules separated by layer (network, storage, instances, etc).
@@ -39,7 +39,9 @@ The objective was to create something similar to this design:
  
  A deployment script is added to run formatting, validation, planning and application of the infrastructure. To use this script: 
  
- For these resources first make sure you have added a public key in a new .tfvars file to support ssh access to the instances.
+ - Make sure you have added a public key in a new `.tfvars` file to support ssh access to the instances.
+ 
+ - Make sure you have a matching profile in the same `.tfvars` file that matches a valid profile in your `.aws/credentials` file.
  
  Then run:
  
