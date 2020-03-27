@@ -13,7 +13,12 @@ output "instance_subnet" {
   value = aws_subnet.instance_subnet.id
 }
 
-output "database_subnet" {
+output "database_subnet_a" {
   description = "the subnet range to attach to the database"
-  value = aws_subnet.database_subnet.id
+  value = aws_subnet.database_subnet_a.id
+}
+
+output "database_subnet_b" {
+  description = "the subnet range to attach to the database"
+  value = aws_subnet.database_subnet_b.id
 }

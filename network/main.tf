@@ -7,6 +7,7 @@ resource "aws_vpc" "vpc" {
     Env  = var.env
   }
 }
+
 resource "aws_subnet" "instance_subnet" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.instance_subnet
@@ -16,9 +17,21 @@ resource "aws_subnet" "instance_subnet" {
     Env  = var.env
   }
 }
-resource "aws_subnet" "database_subnet" {
+
+resource "aws_subnet" "database_subnet_a" {
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = var.database_subnet
+  cidr_block              = var.database_subnet_a
+  availability_zone = "us-west-2a"
+  tags = {
+    Name = "${var.env}_subnet"
+    Env  = var.env
+  }
+}
+
+resource "aws_subnet" "database_subnet_b" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.database_subnet_b
+  availability_zone       = "us-west-2b"
   tags = {
     Name = "${var.env}_subnet"
     Env  = var.env
